@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment: {POSTGRES_USER: wakapi, POSTGRES_PASSWORD: testpw, POSTGRES_DB: wakapi}
+    volumes: [pg:/var/lib/postgresql/data]
+  wakapi:
+    build: ..
+    ports: ["3000:3000"]
+    mem_limit: 512m
+    cpus: 1
+    environment:
+      PORT: "3000"
+      WAKAPI_DB_TYPE: postgres
+      WAKAPI_DB_HOST: postgres
+      WAKAPI_DB_PORT: "5432"
+      WAKAPI_DB_USER: wakapi
+      WAKAPI_DB_PASSWORD: testpw
+      WAKAPI_DB_NAME: wakapi
+      WAKAPI_PASSWORD_SALT: localtestsalt0123456789abcdefghij
+      WAKAPI_COOKIE_KEY: aGVsbG9oZWxsb2hlbGxvaGVsbG9oZWxsb2hlbGxvaGVsbG8x
+      WAKAPI_ADMIN_USERNAME: admin
+      WAKAPI_ADMIN_PASSWORD: "p@ss w+rd&1=ok"
+      WAKAPI_PUBLIC_URL: http://localhost:3000
+      WAKAPI_INSECURE_COOKIES: "true"
+volumes: {pg: {}}
